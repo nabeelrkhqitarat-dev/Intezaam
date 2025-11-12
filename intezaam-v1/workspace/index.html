@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Intezaam Workspace — Organizers</title>
+  <link rel="stylesheet" href="assets/css/workspace.css">
+</head>
+<body>
+  <div class="header">
+    <div class="container inner">
+      <div class="brand">Intezaam — Organizers Workspace</div>
+      <div class="tools">
+        <button id="exportJson" class="btn">Export JSON</button>
+        <label class="btn">
+          Import JSON
+          <input id="importJson" type="file" accept=".json" style="display:none">
+        </label>
+        <button id="saveLocal" class="btn btn--accent">Save (Local)</button>
+        <button id="resetData" class="btn btn--warn">Reset to Sample</button>
+        <a class="btn" href="../" title="Public site">↩ Back to Site</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container grid">
+    <aside class="sidebar">
+      <div class="nav">
+        <a data-tab="dashboard" class="active">Dashboard</a>
+        <a data-tab="tasks">Tasks (Kanban)</a>
+        <a data-tab="guests">Guests</a>
+        <a data-tab="budget">Budget</a>
+        <a data-tab="vendors">Vendors</a>
+        <a data-tab="menu">Menu</a>
+        <a data-tab="timeline">Timeline</a>
+        <a data-tab="notes">Notes</a>
+        <a data-tab="settings">Settings</a>
+      </div>
+      <div class="small" style="margin-top:12px">
+        Tip: Export JSON and commit it to <code>/data/intezaam.json</code> for team sync via GitHub.
+      </div>
+    </aside>
+
+    <main class="content">
+      <section id="dashboard" class="section active">
+        <h2>Dashboard</h2>
+        <div class="stats">
+          <div class="stat"><div class="small">Tasks</div><div id="statTasks" style="font-weight:900;font-size:22px">0</div></div>
+          <div class="stat"><div class="small">Guests</div><div id="statGuests" style="font-weight:900;font-size:22px">0</div></div>
+          <div class="stat"><div class="small">Budget (Actual)</div><div id="statBudgetActual" style="font-weight:900;font-size:22px">₹0</div></div>
+          <div class="stat"><div class="small">Budget (Estimated)</div><div id="statBudgetEst" style="font-weight:900;font-size:22px">₹0</div></div>
+        </div>
+        <canvas id="budgetDonut"></canvas>
+      </section>
+
+      <section id="tasks" class="section">
+        <h2>Tasks (Kanban)</h2>
+        <div class="flex">
+          <input id="taskTitle" class="input" placeholder="Task title">
+          <select id="taskCategory">
+            <option>Pre-Wedding</option><option>Venue</option><option>Catering</option>
+            <option>Invitations</option><option>Logistics</option><option>Rituals</option><option>Other</option>
+          </select>
+          <select id="taskOwner"><option>Talha Family</option><option>Joveriya Family</option><option>Both</option><option>Vendor</option></select>
+          <input id="taskDue" class="input" type="date">
+          <select id="taskPriority"><option>Low</option><option>Medium</option><option>High</option></select>
+          <input id="taskCost" class="input" type="number" placeholder="Cost (₹)">
+          <button id="addTask" class="btn btn--accent">Add Task</button>
+        </div>
+        <div class="kanban" style="margin-top:12px">
+          <div class="column" data-status="Backlog"><div class="small">Backlog</div><div class="col-body" id="colBacklog"></div></div>
+          <div class="column" data-status="In-Progress"><div class="small">In-Progress</div><div class="col-body" id="colProgress"></div></div>
+          <div class="column" data-status="Blocked"><div class="small">Blocked</div><div class="col-body" id="colBlocked"></div></div>
+          <div class="column" data-status="Done"><div class="small">Done</div><div class="col-body" id="colDone"></div></div>
+        </div>
+      </section>
+
+      <section id="guests" class="section">
+        <h2>Guests</h2>
+        <div class="flex">
+          <input id="guestName" class="input" placeholder="Full name">
+          <select id="guestSide"><option>Groom</option><option>Bride</option></select>
+          <input id="guestPhone" class="input" placeholder="Phone">
+          <input id="guestCount" class="input" type="number" placeholder="Attendees (e.g., 2)">
+          <select id="guestRSVP"><option>Invited</option><option>Going</option><option>Not Going</option><option>Pending</option></select>
+          <button id="addGuest" class="btn btn--accent">Add</button>
+        </div>
+        <table class="table" id="guestTable"></table>
+      </section>
+
+      <section id="budget" class="section">
+        <h2>Budget</h2>
+        <div class="flex">
+          <input id="bItem" class="input" placeholder="Item">
+          <input id="bCat" class="input" placeholder="Category">
+          <input id="bEst" class="input" type="number" placeholder="Estimated (₹)">
+          <input id="bAct" class="input" type="number" placeholder="Actual (₹)">
+          <input id="bVendor" class="input" placeholder="Vendor">
+          <button id="addBudget" class="btn btn--accent">Add</button>
+        </div>
+        <table class="table" id="budgetTable"></table>
+      </section>
+
+      <section id="vendors" class="section">
+        <h2>Vendors</h2>
+        <div class="flex">
+          <input id="vName" class="input" placeholder="Vendor name">
+          <input id="vService" class="input" placeholder="Service (e.g., Catering)">
+          <input id="vQuote" class="input" type="number" placeholder="Quote (₹)">
+          <input id="vContact" class="input" placeholder="Contact person / phone">
+          <select id="vStatus"><option>Prospecting</option><option>Negotiating</option><option>Booked</option><option>Paid</option></select>
+          <button id="addVendor" class="btn btn--accent">Add</button>
+        </div>
+        <table class="table" id="vendorTable"></table>
+      </section>
+
+      <section id="menu" class="section">
+        <h2>Menu Planner</h2>
+        <div class="flex">
+          <input id="mCourse" class="input" placeholder="Course (e.g., Starter)">
+          <input id="mItem" class="input" placeholder="Item">
+          <select id="mVeg"><option>Veg</option><option>Non-Veg</option></select>
+          <input id="mNotes" class="input" placeholder="Notes">
+          <button id="addMenu" class="btn btn--accent">Add</button>
+        </div>
+        <table class="table" id="menuTable"></table>
+      </section>
+
+      <section id="timeline" class="section">
+        <h2>Timeline (Day-of)</h2>
+        <div class="flex">
+          <input id="tTime" class="input" type="time">
+          <input id="tTitle" class="input" placeholder="Activity">
+          <input id="tOwner" class="input" placeholder="Owner">
+          <input id="tNotes" class="input" placeholder="Notes">
+          <button id="addTimeline" class="btn btn--accent">Add</button>
+        </div>
+        <table class="table" id="timelineTable"></table>
+      </section>
+
+      <section id="notes" class="section">
+        <h2>Notes</h2>
+        <textarea id="notesText" rows="10" style="width:100%"></textarea>
+      </section>
+
+      <section id="settings" class="section">
+        <h2>Settings</h2>
+        <div class="row">
+          <div>
+            <label>Couple</label>
+            <input id="sCouple" class="input" placeholder="Talha & Joveriya">
+          </div>
+          <div>
+            <label>Wedding Date</label>
+            <input id="sDate" class="input" type="date">
+          </div>
+          <div>
+            <label>City</label>
+            <input id="sCity" class="input" placeholder="Allahabad">
+          </div>
+          <div>
+            <label>Venue</label>
+            <input id="sVenue" class="input" placeholder="Apollo Gardens">
+          </div>
+        </div>
+        <div class="small" style="margin-top:10px">
+          Save locally, then Export JSON and commit it to <code>/data/intezaam.json</code> for shared progress.
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <footer>© 2025 Intezaam — Organizers Workspace</footer>
+
+  <script src="assets/js/workspace.js"></script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+{
+  "version": 1,
+  "settings": {
+    "couple": "Talha & Joveriya",
+    "date": "2025-12-25",
+    "city": "Allahabad",
+    "venue": "Apollo Gardens"
+  },
+  "tasks": [
+    {
+      "id": "t1",
+      "title": "Book venue advance",
+      "category": "Venue",
+      "status": "In-Progress",
+      "owner": "Talha Family",
+      "due": "2025-11-25",
+      "cost": 15000,
+      "priority": "High",
+      "notes": "Advance 50%"
+    },
+    {
+      "id": "t2",
+      "title": "Finalize menu",
+      "category": "Catering",
+      "status": "Backlog",
+      "owner": "Both",
+      "due": "2025-12-05",
+      "cost": 0,
+      "priority": "Medium",
+      "notes": ""
+    }
+  ],
+  "guests": [
+    {
+      "id": "g1",
+      "name": "Ahmed Khan",
+      "side": "Groom",
+      "phone": "",
+      "count": 2,
+      "rsvp": "Invited",
+      "table": "",
+      "notes": ""
+    }
+  ],
+  "budget": [
+    {
+      "id": "b1",
+      "item": "Venue Booking",
+      "category": "Venue",
+      "estimated": 40000,
+      "actual": 35000,
+      "vendor": "Apollo Gardens",
+      "notes": "Negotiated"
+    }
+  ],
+  "vendors": [
+    {
+      "id": "v1",
+      "name": "Apollo Gardens",
+      "service": "Venue",
+      "quote": 40000,
+      "contact": "Manager 98xxxx",
+      "status": "Booked",
+      "notes": ""
+    }
+  ],
+  "menu": [
+    {
+      "id": "m1",
+      "course": "Starter",
+      "item": "Fish Fry",
+      "veg": "Non-Veg",
+      "notes": ""
+    }
+  ],
+  "timeline": [
+    {
+      "id": "d1",
+      "time": "18:00",
+      "title": "Nikah Ceremony",
+      "owner": "Both",
+      "notes": "Arrive early"
+    }
+  ],
+  "notes": ""
+}
